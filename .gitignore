@@ -1,0 +1,28 @@
+# Ignore everything
+*
+
+# Whitelist anything that's a directory
+!*/
+
+# ignore certain directory
+#/genomeshuffle/build/
+test/
+cmake-build-debug/
+sandbox/
+googletest-release-1.8.0/
+data/
+
+# Add all the file types I'm interested in.
+!.gitignore
+!*.py
+!*.cpp
+!*.h
+!*.sh
+!*.md
+!*.sql
+!CMakeLists.txt
+
+# add all the filename I'm interested in.
+#!target.csv
+
+.ipynb_checkpoints

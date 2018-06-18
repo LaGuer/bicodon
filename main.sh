@@ -1,0 +1,19 @@
+#!/bin/bash
+#$ -S /bin/bash
+#$ -N bicodon
+#$ -q standard.q
+#$ -cwd
+#$ -v PATH
+#$ -o ./log/bicodon_$JOB_ID_$TASK_ID.out
+#$ -e ./log/bicodon_$JOB_ID_$TASK_ID.err
+#$ -l mem_free=5G
+
+set -ue
+
+argFilepath=${1}
+lineNum=${SGE_TASK_ID:-1}
+line=`awk -v lineNum=$lineNum '{if (NR == lineNum) print $0}' ${argFilepath}`
+fp_cds=`echo ${line} | cut -d ',' -f1`
+fp_pkl=`echo ${line} | cut -d ',' -f2`
+
+./main.py ${fp_cds} ${fp_pkl}
