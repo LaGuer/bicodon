@@ -14,6 +14,7 @@ argFilepath=${1}
 lineNum=${SGE_TASK_ID:-1}
 line=`awk -v lineNum=$lineNum '{if (NR == lineNum) print $0}' ${argFilepath}`
 fp_cds=`echo ${line} | cut -d ',' -f1`
-fp_pkl=`echo ${line} | cut -d ',' -f2`
+fp_bt=`echo ${line} | cut -d ',' -f2`
+fp_ii=`echo ${line} | cut -d ',' -f3`
 
-./main.py ${fp_cds} ${fp_pkl}
+./main.py ${fp_cds} ${fp_bt} ${fp_ii}

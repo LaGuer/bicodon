@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+from collections import defaultdict
 
 translTable = "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG"
 
@@ -15,6 +16,30 @@ def is_typical(seq):
     return True
 
 
+class InvertedIndex:
+    def __init__(self):
+        self.bicodon_dct = defaultdict(list)
+        self.biaa_dct = defaultdict(list)
+
+    def update_bicodon(self, seq_id, seq):
+        for i in range(1, len(seq)//3):
+            bicodon = str(seq[(i-1)*3 : (i+1)*3])
+            position = i / (len(seq)//3)
+            self.bicodon_dct[bicodon].append((seq_id, position))
+
+    def update_biaa(self, seq_id, seq):
+        pro = seq.translate()
+        for i in range(1, len(pro)):
+            biaa = str(pro[i-1:i+1])
+            position = i / len(pro)
+            self.biaa_dct[biaa].append((seq_id, position))
+
+    def update(self, seq_id, seq):
+        if is_typical(seq):
+            self.update_bicodon(seq_id, seq)
+            self.update_biaa(seq_id, seq)
+
+
 class BiasTracker:
     def __init__(self):
         self.codec = Codec()
@@ -24,15 +49,6 @@ class BiasTracker:
         self.aa_c = np.zeros(21).astype(int)
         self.biaa_c = np.zeros((21, 21)).astype(int)
 
-    def is_typical(self, seq):
-        if len(seq) >= 6 and len(seq) % 3 != 0:
-            return False
-        if 'N' in seq:
-            return False
-        pro = seq.translate()
-        if "*" in pro[:-1]:
-            return False
-        return True
 
     def update_codon(self, seq):
         for i in range(len(seq)//3):
@@ -60,7 +76,7 @@ class BiasTracker:
             prv = nxt
 
     def update(self, seq):
-        if self.is_typical(seq):
+        if is_typical(seq):
             self.update_codon(seq)
             self.update_bicodon(seq)
             self.update_aa(seq)
