@@ -2,10 +2,11 @@
 
 import pandas as pd
 
-species_fp = "/home/mitsuki/rsyncdir/files/species.csv"
-species_df = pd.read_csv(species_fp)
+ref_fp = "./data/refseq.csv"
+out_fp = "./arg/wget.lst"
 
-for _, row in species_df.iterrows():
-    infp = "{}/{}_cds_from_genomic.fna.gz".format(row["ftp_path"], row["ftp_basename"])
-    outfp = "/home/mitsuki/sandbox/bicodon/data/cds/{}_cds_from_genomic.fna".format(row["taxid"])
-    print("{},{}".format(infp, outfp))
+ref_df = pd.read_csv(ref_fp)
+ref_df["in"] = ref_df["ftp"].map(lambda x:"{}/{}_cds_from_genomic.fna.gz".format(x, x.split('/')[-1]))
+ref_df["out"] = ref_df["acc"].map(lambda x:"/home/mitsuki/bicodon/data/cds/{}.fna".format(x))
+ref_df[["in", "out"]].to_csv("./arg/wget.lst", index=False, header=None)
+

@@ -7,20 +7,18 @@
 # ignore certain directory
 #/genomeshuffle/build/
 test/
-cmake-build-debug/
-sandbox/
-googletest-release-1.8.0/
-data/
+data/cds
+data/freqs
+data/bicodon
+
 
 # Add all the file types I'm interested in.
 !.gitignore
 !*.py
-!*.cpp
-!*.h
 !*.sh
 !*.md
-!*.sql
-!CMakeLists.txt
+!*.ipynb
+!data/refseq.csv
 
 # add all the filename I'm interested in.
 #!target.csv
