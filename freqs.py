@@ -3,6 +3,8 @@
 import sys
 import dill
 import logging
+import itertools
+import pandas as pd
 from Bio import SeqIO
 from Bio.Seq import Seq
 from collections import defaultdict,Counter
@@ -69,6 +71,39 @@ def dump_freqs(freqs, fp):
 
 def load_freqs(fp):
     return dill.load(open(fp, "rb"))
+
+
+def calculate_pressure(freqs):
+    """
+    calculate bicodon pressure and return as pd.DataFrame
+    """
+
+
+    codons = [''.join(_) for _ in itertools.product("TCAG", repeat=3)]
+
+    probs = dict()
+    for codon in codons:
+        aa = str(Seq(codon).translate(table=11))
+        probs[codon] = freqs.codon[codon] / freqs.aa[aa] if freqs.aa[aa] > 0 else 0
+
+    dct_lst = []
+    for c1 in codons:
+        for c2 in codons:
+            bicodon = c1 + c2
+            biaa = str(Seq(bicodon).translate(table=11))
+            a1 = biaa[0]
+            a2 = biaa[1]
+
+            dct = {
+                "bicodon": bicodon,
+                "freq": freqs.bicodon[c1][c2],
+                "pred": freqs.biaa[a1][a2] * probs[c1] * probs[c2]
+            }
+            dct_lst.append(dct)
+
+    df = pd.DataFrame(dct_lst)
+    df["pres"] = df["freq"] / df["pred"]
+    return df
 
 
 def main(cds_fp, out_fp):

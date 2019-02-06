@@ -10,6 +10,7 @@ test/
 data/cds
 data/freqs
 data/bicodon
+__pycache__/
 
 
 # Add all the file types I'm interested in.
@@ -19,8 +20,7 @@ data/bicodon
 !*.md
 !*.ipynb
 !data/refseq.csv
+!data/bicodon.tsv
 
-# add all the filename I'm interested in.
-#!target.csv
-
+# add all the filename I'm not interested in.
 .ipynb_checkpoints
