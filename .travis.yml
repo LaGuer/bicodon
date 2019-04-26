@@ -1,0 +1,69 @@
+# Documentation: http://docs.travis-ci.com/user/languages/julia/
+language: julia
+os:
+  - linux
+  - osx
+#  - windows
+julia:
+  - 0.7
+  - 1.1
+  - nightly
+notifications:
+    email: false
+git:
+  depth: 999999
+
+## uncomment the following lines to allow failures on nightly julia
+## (tests will run but not make your overall status red)
+matrix:
+ allow_failures:
+ - julia: nightly
+# - os: windows
+
+# script:
+#   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+#   - julia -e 'import Pkg; Pkg.add(Pkg.PackageSpec(path=pwd())); Pkg.build("Cosmology"); Pkg.test("Cosmology"; coverage=true)'
+after_success:
+  - echo $TRAVIS_JULIA_VERSION
+#  - julia -e 'cd(Pkg.dir("MathPhysicalConstants")); ps=Pkg.PackageSpec(name="Documenter", version="0.21"); Pkg.add(ps); Pkg.pin(ps); include(joinpath("docs", "make.jl"))'
+  - julia -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/Cosmology.jl"); ps=Pkg.PackageSpec(name="Documenter", version="0.21"); Pkg.add(ps); Pkg.pin(ps); include(joinpath("docs", "make.jl"))'
+  - julia -e 'import Pkg; Pkg.status(); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  - julia -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder()); Codecov.submit(process_folder())'
+
+jobs:
+  include:
+    - stage: "Documentation"
+      julia: nightly
+      codecov: true
+      os: 
+        - linux
+        - osx
+      allowed_failures:
+        - julia: nightly
+      script:
+#        - julia --color=yes -e 'using Pkg; Pkg.build()'
+#        - julia --check-bounds=yes --color=yes -e 'using Pkg; Pkg.test(coverage=true)'
+#        - julia --project=@ -e 'using Pkg; Pkg.instantiate()'
+        - julia --project=@ -e 'import Pkg; Pkg.add("Documenter")'
+        - julia --project=@ -e 'import Pkg; Pkg.add("Bio")'
+        - julia --project=@ -e 'import Pkg; Pkg.add("Bio.seq")'
+        
+#        - julia --project=@ -e 'import Pkg; Pkg.add("PhysicalConstant")'
+#        - julia --project=@ -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/PhysicalConstant.jl")'
+#        - julia --project=@ -e 'import Pkg; Pkg.build()'
+        - julia --project=@ --color=yes -e 'using Pkg; Pkg.build()'
+        - julia --project=@ -e 'import Pkg; Pkg.status()'
+        - julia --project=@ -e 'import Pkg; Pkg.build()'
+        - julia --project=@ -e 'using Pkg; Pkg.instantiate()'
+#        - julia --project=@ docs/ -e 'import Pkg; Pkg.add("PhysicalConstant")'
+#        - julia --project=@ docs/ -e 'import Pkg; Pkg.build()'
+#        - julia --project=@ docs/make.jl
+      after_success:
+        - julia -e 'import Pkg; Pkg.add("Measurements")'
+        - julia -e 'import Pkg; Pkg.add("Unitful")'
+        - julia -e 'import Pkg; Pkg.add("UnitfulAstro")'
+        - julia -e 'import Pkg; Pkg.add("QuadGK")'
+        - julia -e 'using Pkg; Pkg.instantiate()'
+        - julia --code-coverage test/runtests.jl
+        - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
+        - julia -e 'import Pkg; cd(Pkg.dir("Cosmology")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
