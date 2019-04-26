@@ -2,8 +2,8 @@ julia 0.7
 PyCall
 #dill
 Bio
-Bio.Seq
-freqs
+#Bio.Seq
+#freqs
 
 #Measurements 2.0.0
 #Unitful 0.15.0
