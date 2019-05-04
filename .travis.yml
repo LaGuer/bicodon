@@ -2,7 +2,7 @@
 language: julia
 os:
   - linux
-  - osx
+#  - osx
 julia:
   - 0.7
   - nightly
@@ -42,18 +42,16 @@ after_success:
 jobs:
   include:
     - stage: "Documentation"
-      julia: nightly
+      julia: 1.1
       os: 
         - linux
-        - osx
       allowed_failures:
-        - julia: nightly
+        - julia: 1.1
       script:
         - julia --project=@ -e 'import Pkg; Pkg.add("Documenter")'
         - julia --project=@ -e 'import Pkg; Pkg.add("Measurements")'
         - julia --project=@ -e 'import Pkg; Pkg.add("Unitful")'
         - julia --project=@ -e 'import Pkg; Pkg.add("Bio")'
-        - julia --project=@ -e 'import Pkg; Pkg.add("Bio.seq")'
         - julia --project=@ --color=yes -e 'using Pkg; Pkg.build()'
         - julia --project=@ -e 'import Pkg; Pkg.status()'
         - julia --project=@ -e 'import Pkg; Pkg.build()'
@@ -66,8 +64,7 @@ jobs:
       after_success: skip
         - julia -e 'import Pkg; Pkg.add("Measurements")'
         - julia -e 'import Pkg; Pkg.add("Unitful")'
-        - julia -e 'import Pkg; Pkg.add("UnitfulAstro")'
-        - julia -e 'import Pkg; Pkg.add("QuadGK")'
+        - julia --project=@ -e 'import Pkg; Pkg.add("Bio")'
         - julia -e 'using Pkg; Pkg.instantiate()'
         - julia --code-coverage test/runtests.jl
         - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
