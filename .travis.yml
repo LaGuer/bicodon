@@ -26,7 +26,7 @@ matrix:
 after_success:
   - echo $TRAVIS_JULIA_VERSION
 #  - julia -e 'cd(Pkg.dir("MathPhysicalConstants")); ps=Pkg.PackageSpec(name="Documenter", version="0.21"); Pkg.add(ps); Pkg.pin(ps); include(joinpath("docs", "make.jl"))'
-  - julia -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/Cosmology.jl"); ps=Pkg.PackageSpec(name="Documenter", version="0.21"); Pkg.add(ps); Pkg.pin(ps); include(joinpath("docs", "make.jl"))'
+  - julia -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/MathPhysicalConstants.jl"); ps=Pkg.PackageSpec(name="Documenter", version="0.21"); Pkg.add(ps); Pkg.pin(ps); include(joinpath("docs", "make.jl"))'
   - julia -e 'import Pkg; Pkg.status(); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
   - julia -e 'import Pkg; Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder()); Codecov.submit(process_folder())'
 
@@ -66,4 +66,4 @@ jobs:
         - julia -e 'using Pkg; Pkg.instantiate()'
         - julia --code-coverage test/runtests.jl
         - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
-        - julia -e 'import Pkg; cd(Pkg.dir("Cosmology")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
+ #       - julia -e 'import Pkg; cd(Pkg.dir("Cosmology")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
