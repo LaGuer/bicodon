@@ -57,7 +57,7 @@ jobs:
         - julia --project=@ -e 'import Pkg; Pkg.build()'
         - julia --project=@ -e 'using Pkg; Pkg.instantiate()'
 #        - julia --project=@ -e 'import Pkg; Pkg.add("PhysicalConstant")'
-#        - julia --project=@ -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/PhysicalConstant.jl")'
+#        - julia --project=@ -e 'import Pkg; Pkg.clone("https://github.com/LaGuer/BiCodon")'
 #        - julia --project=@ -e 'import Pkg; Pkg.build()'
         - julia --project=@ -e 'import Pkg; Pkg.status()'
 #        - julia --project=@ docs/make.jl
@@ -67,5 +67,7 @@ jobs:
         - julia --project=@ -e 'import Pkg; Pkg.add("Bio")'
         - julia -e 'using Pkg; Pkg.instantiate()'
         - julia --code-coverage test/runtests.jl
+ #       - julia -e 'import Pkg; cd(Pkg.dir("BiCodon")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
         - julia -e 'using Pkg; Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder())'
- #       - julia -e 'import Pkg; cd(Pkg.dir("Cosmology")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
+        - julia -e 'import Pkg; cd(Pkg.dir("BiCodon")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+        - julia -e 'import Pkg; cd(Pkg.dir("BiCodon")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
