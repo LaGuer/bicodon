@@ -26,8 +26,8 @@ before_build:
   - SET PGUSER=postgres
   - SET PGPASSWORD=Password12!
   - SET PATH=C:\Program Files\PostgreSQL\9.6\bin\;%PATH%
-  - psql -U postgres -c "CREATE USER biosql_user WITH PASSWORD 'biosql_pass';"
-  - psql -U postgres -c "CREATE DATABASE biosql_test OWNER biosql_user;"
+  - psql -U postgres -c "CREATE USER bicodonsql_user WITH PASSWORD 'bicodonsql_pass';"
+  - psql -U postgres -c "CREATE DATABASE bicodonsql_test OWNER bicodonsql_user;"
 
 build_script:
 # If there's a newer build queued for the same PR, cancel this one
@@ -53,7 +53,7 @@ build_script:
 test_script:
   - python -c "import sys; print(sys.version)"
   - cd Tests
-  - cp biosql.ini.appveyor biosql.ini
+  - cp bicodonsql.ini.appveyor bicodonsql.ini
   - coverage run run_tests.py --offline
   - coverage xml
   - cd ..
