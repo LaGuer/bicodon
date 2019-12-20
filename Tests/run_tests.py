@@ -189,7 +189,7 @@ def main(argv):
             return 0
         if opt == "--offline":
             print("Skipping any tests requiring internet access")
-            EXCLUDE_DOCTEST_MODULES.extend(ONLINE_DOCTEST_MODULES)
+            #EXCLUDE_DOCTEST_MODULES.extend(ONLINE_DOCTEST_MODULES)
             # This is a bit of a hack...
             import requires_internet
             requires_internet.check.available = False
@@ -199,7 +199,7 @@ def main(argv):
             def dummy_urlopen(url):
                 raise RuntimeError("Internal test suite error, attempting to use internet despite --offline setting")
 
-            Bio._py3k.urlopen = dummy_urlopen
+            #Bio._py3k.urlopen = dummy_urlopen
 
         if opt == "-v" or opt == "--verbose":
             verbosity = 2
@@ -247,15 +247,15 @@ class TestRunner(unittest.TextTestRunner):
         if "doctest" in self.tests:
             self.tests.remove("doctest")
             modules = find_modules(self.testdir + "/..")
-            modules.difference_update(set(EXCLUDE_DOCTEST_MODULES))
+            #modules.difference_update(set(EXCLUDE_DOCTEST_MODULES))
             self.tests.extend(sorted(modules))
         stream = StringIO()
         unittest.TextTestRunner.__init__(self, stream,
                                          verbosity=verbosity)
 
     def runTest(self, name):
-        from Bio import MissingPythonDependencyError
-        from Bio import MissingExternalDependencyError
+        from Bicodon import MissingPythonDependencyError
+        from Bicodon import MissingExternalDependencyError
         result = self._makeResult()
         output = StringIO()
         # Restore the language and thus default encoding (in case a prior
@@ -277,10 +277,10 @@ class TestRunner(unittest.TextTestRunner):
                     # New in Python 3.5, don't always get an exception anymore
                     # Instead this is a list of error messages as strings
                     for msg in loader.errors:
-                        if "Bio.MissingExternalDependencyError: " in msg or \
-                                "Bio.MissingPythonDependencyError: " in msg:
+                        if "Bicodon.MissingExternalDependencyError: " in msg or \
+                                "Bicodon.MissingPythonDependencyError: " in msg:
                             # Remove the traceback etc
-                            msg = msg[msg.find("Bio.Missing"):]
+                            msg = msg[msg.find("Bicodon.Missing"):]
                             msg = msg[msg.find("Error: "):]
                             sys.stderr.write("skipping. %s\n" % msg)
                             return True
