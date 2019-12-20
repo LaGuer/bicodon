@@ -1,7 +1,7 @@
 julia 0.7
 PyCall
 #dill
-Bio
+#Biopython
 #Bio.Seq
 #freqs
 
