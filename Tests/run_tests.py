@@ -83,14 +83,14 @@ VERBOSITY = 0
 try:
     import sqlite3
     del sqlite3
-except ImportError:
+#except ImportError:
     # Missing on Jython or Python 2.4
     #EXCLUDE_DOCTEST_MODULES.append("Bio.SeqIO")
     #EXCLUDE_DOCTEST_MODULES.append("Bio.SearchIO")
 
 # Skip Bio.Seq doctest under Python 2, see http://bugs.python.org/issue7490
 # Can't easily write exceptions with consistent class name in python 2 and 3
-if sys.version_info[0] == 2:
+#if sys.version_info[0] == 2:
     #EXCLUDE_DOCTEST_MODULES.append("Bio.Seq")
     #EXCLUDE_DOCTEST_MODULES.append("Bio.Phylo")
 
