@@ -80,9 +80,9 @@ VERBOSITY = 0
 # Silently ignore any doctests for modules requiring numpy!
 
 
-try:
-    import sqlite3
-    del sqlite3
+#try:
+ #   import sqlite3
+ #   del sqlite3
 #except ImportError:
     # Missing on Jython or Python 2.4
     #EXCLUDE_DOCTEST_MODULES.append("Bio.SeqIO")
