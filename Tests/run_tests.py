@@ -191,8 +191,8 @@ def main(argv):
             print("Skipping any tests requiring internet access")
             #EXCLUDE_DOCTEST_MODULES.extend(ONLINE_DOCTEST_MODULES)
             # This is a bit of a hack...
-            import requires_internet
-            requires_internet.check.available = False
+            #import requires_internet
+            #requires_internet.check.available = False
             # Monkey patch for urlopen()
             #import Bio._py3k
 
