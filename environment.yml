@@ -2,7 +2,7 @@ dependencies:
   - matplotlib
   - numpy
   - dill
-  - bio
+  - Bio
   - pandas
   - pip
   - pytest
