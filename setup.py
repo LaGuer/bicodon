@@ -342,7 +342,7 @@ setup(
         "build_ext": build_ext_bicodon,
         "test": test_bicodon,
     },
-    packages=PACKAGES,
+    #packages=PACKAGES,
     ext_modules=EXTENSIONS,
     include_package_data=True,  # done via MANIFEST.in under setuptools
     install_requires=REQUIRES,
