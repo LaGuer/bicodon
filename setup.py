@@ -1,16 +1,16 @@
-"""setuptools based setup script for Biopython.
+"""setuptools based setup script for Bicodon.
 This uses setuptools which is now the standard python mechanism for
 installing packages. If you have downloaded and uncompressed the
-Biopython source code, or fetched it from git, for the simplest
+Bicodon source code, or fetched it from git, for the simplest
 installation just type the command::
     python setup.py install
-However, you would normally install the latest Biopython release from
+However, you would normally install the latest Bicodon release from
 the PyPI archive with::
-    pip install biopython
+    pip install bicodon
 For more in-depth instructions, see the installation section of the
-Biopython manual, linked to from:
-http://biopython.org/wiki/Documentation
-Or, if all else fails, feel free to write to the sign up to the Biopython
+Bicodon manual, linked to from:
+https://github.com/laguer/bicodon/wiki/Documentation
+Or, if all else fails, feel free to write to the sign up to the Bicodon
 mailing list and ask for help.  See:
 http://biopython.org/wiki/Mailing_lists
 """
@@ -68,7 +68,7 @@ def osx_clang_fix():
     # see http://lists.open-bio.org/pipermail/biopython-dev/2014-April/011240.html
     if sys.platform != "darwin":
         return
-    # see also Bio/_py3k/__init__.py (which we can't use in setup.py)
+    # see also Bicodon/_py3k/__init__.py (which we can't use in setup.py)
     if sys.version_info[0] >= 3:
         from subprocess import getoutput
     else:
@@ -128,28 +128,28 @@ def is_ironpython():
 # Make sure we have the right Python version.
 if sys.version_info[:2] < (2, 7):
     sys.stderr.write(
-        "Biopython requires Python 2.7, or Python 3.5 or later. "
+        "Bicodon requires Python 2.7, or Python 3.5 or later. "
         "Python %d.%d detected.\n" % sys.version_info[:2]
     )
     sys.exit(1)
 elif sys.version_info[0] < 3:
     sys.stderr.write(
         "=" * 66
-        + "\nWARNING: Biopython will drop support for Python 2.7 in early 2020.\n"
+        + "\nWARNING: Bicodon will drop support for Python 2.7 in early 2020.\n"
         + "=" * 66
         + "\n"
     )
 elif sys.version_info[0] == 3 and sys.version_info[:2] < (3, 5):
     sys.stderr.write(
-        "Biopython requires Python 3.5 or later (or Python 2.7). "
+        "Bicodon requires Python 3.5 or later (or Python 2.7). "
         "Python %d.%d detected.\n" % sys.version_info[:2]
     )
     sys.exit(1)
 # if sys.version_info[:2] == (3, 5):
-#     print("WARNING: Biopython support for Python 3.5 is now deprecated.")
+#     print("WARNING: Bicodon support for Python 3.5 is now deprecated.")
 
 if is_jython():
-    sys.stderr.write("WARNING: Biopython support for Jython is now deprecated.\n")
+    sys.stderr.write("WARNING: Bicodon support for Jython is now deprecated.\n")
 
 
 def check_dependencies_once():
@@ -176,7 +176,7 @@ def check_dependencies():
     return True
 
 
-class install_biopython(install):
+class install_bicodon(install):
     """Override the standard install to check for dependencies.
     This will just run the normal install, and then print warning messages
     if packages are missing.
@@ -190,24 +190,20 @@ class install_biopython(install):
         if sys.version_info[0] < 3:
             sys.stderr.write(
                 "=" * 66
-                + "\nWARNING: Biopython will drop support for Python 2.7 in early 2020.\n"
+                + "\nWARNING: Bicodon will drop support for Python 2.7 in early 2020.\n"
                 + "=" * 66
                 + "\n"
             )
 
 
-class build_py_biopython(build_py):
-    """Biopython builder."""
+class build_py_bicodon(build_py):
+    """Bicodon builder."""
 
     def run(self):
         """Run the build."""
         if not check_dependencies_once():
             return
-        if is_jython() and "Bio.Restriction" in self.packages:
-            # Evil hack to work on Jython 2.7 to avoid
-            # java.lang.RuntimeException: Method code too large!
-            # from Bio/Restriction/Restriction_Dictionary.py
-            self.packages.remove("Bio.Restriction")
+        
         # Add software that requires Numpy to be installed.
         if is_jython() or is_ironpython():
             pass
@@ -216,8 +212,8 @@ class build_py_biopython(build_py):
         build_py.run(self)
 
 
-class build_ext_biopython(build_ext):
-    """Biopython extension builder."""
+class build_ext_bicodon(build_ext):
+    """Bicodon extension builder."""
 
     def run(self):
         """Run the build."""
@@ -226,7 +222,7 @@ class build_ext_biopython(build_ext):
         build_ext.run(self)
 
 
-class test_biopython(Command):
+class test_bicodon(Command):
     """Run all of the tests for the package.
     This is a automatic test run class to make distutils kind of act like
     perl. With this you can do:
@@ -235,7 +231,7 @@ class test_biopython(Command):
     python setup.py test
     """
 
-    description = "Automatically run the test suite for Biopython."
+    description = "Automatically run the test suite for Bicodon."
     user_options = [("offline", None, "Don't run online tests")]
 
     def initialize_options(self):
@@ -283,135 +279,13 @@ if is_jython() or is_ironpython():
 
 
 # --- set up the packages we are going to install
-# standard biopython packages
-PACKAGES = [
-    "Bio",
-    "Bio.Align",
-    "Bio.Align.Applications",
-    "Bio.AlignIO",
-    "Bio.Alphabet",
-    "Bio.Application",
-    "Bio.Blast",
-    "Bio.CAPS",
-    "Bio.codonalign",
-    "Bio.Compass",
-    "Bio.Crystal",
-    "Bio.Data",
-    "Bio.Emboss",
-    "Bio.Entrez",
-    "Bio.ExPASy",
-    "Bio.FSSP",
-    "Bio.GenBank",
-    "Bio.Geo",
-    "Bio.Graphics",
-    "Bio.Graphics.GenomeDiagram",
-    "Bio.HMM",
-    "Bio.KEGG",
-    "Bio.KEGG.Compound",
-    "Bio.KEGG.Enzyme",
-    "Bio.KEGG.Gene",
-    "Bio.KEGG.Map",
-    "Bio.PDB.mmtf",
-    "Bio.KEGG.KGML",
-    "Bio.Medline",
-    "Bio.motifs",
-    "Bio.motifs.applications",
-    "Bio.motifs.jaspar",
-    "Bio.Nexus",
-    "Bio.NMR",
-    "Bio.Pathway",
-    "Bio.Pathway.Rep",
-    "Bio.PDB",
-    "Bio.PopGen",
-    "Bio.PopGen.GenePop",
-    "Bio.Restriction",
-    "Bio.SCOP",
-    "Bio.SearchIO",
-    "Bio.SearchIO._legacy",
-    "Bio.SearchIO._model",
-    "Bio.SearchIO.BlastIO",
-    "Bio.SearchIO.HHsuiteIO",
-    "Bio.SearchIO.HmmerIO",
-    "Bio.SearchIO.ExonerateIO",
-    "Bio.SearchIO.InterproscanIO",
-    "Bio.SeqIO",
-    "Bio.SeqUtils",
-    "Bio.Sequencing",
-    "Bio.Sequencing.Applications",
-    "Bio.Statistics",
-    "Bio.SubsMat",
-    "Bio.SVDSuperimposer",
-    "Bio.PDB.QCPSuperimposer",
-    "Bio.SwissProt",
-    "Bio.TogoWS",
-    "Bio.Phylo",
-    "Bio.Phylo.Applications",
-    "Bio.Phylo.PAML",
-    "Bio.UniGene",
-    "Bio.UniProt",
-    "Bio.Wise",
-    "Bio._py3k",
-    # Other top level packages,
-    "BioSQL",
-]
+# standard Bicodon packages
 
-if is_jython():
-    # Evil hack to work on Jython 2.7
-    # This is to avoid java.lang.RuntimeException: Method code too large!
-    # from Bio/Restriction/Restriction_Dictionary.py
-    PACKAGES.remove("Bio.Restriction")
-
-
-# packages that require Numeric Python
-NUMPY_PACKAGES = [
-    "Bio.Affy",
-    "Bio.Align.substitution_matrices",
-    "Bio.Cluster",
-    "Bio.KDTree",
-    "Bio.phenotype",
-]
-
-if is_jython():
-    # Jython doesn't support C extensions
-    EXTENSIONS = []
-elif is_ironpython():
-    # Skip C extensions for now
-    EXTENSIONS = []
-else:
-    EXTENSIONS = [
-        Extension("Bio.Align._aligners", ["Bio/Align/_aligners.c"]),
-        Extension("Bio.cpairwise2", ["Bio/cpairwise2module.c"]),
-        Extension("Bio.Nexus.cnexus", ["Bio/Nexus/cnexus.c"]),
-        Extension(
-            "Bio.PDB.QCPSuperimposer.qcprotmodule",
-            ["Bio/PDB/QCPSuperimposer/qcprotmodule.c"],
-        ),
-        Extension("Bio.motifs._pwm", ["Bio/motifs/_pwm.c"]),
-        Extension(
-            "Bio.Cluster._cluster",
-            ["Bio/Cluster/cluster.c", "Bio/Cluster/clustermodule.c"],
-        ),
-        Extension("Bio.PDB.kdtrees", ["Bio/PDB/kdtrees.c"]),
-        Extension(
-            "Bio.KDTree._CKDTree", ["Bio/KDTree/KDTree.c", "Bio/KDTree/KDTreemodule.c"]
-        ),
-    ]
-    if not is_pypy():
-        # Bio.trie has a problem under PyPy2 v5.6 and 5.7
-        EXTENSIONS.extend(
-            [
-                Extension(
-                    "Bio.trie", ["Bio/triemodule.c", "Bio/trie.c"], include_dirs=["Bio"]
-                )
-            ]
-        )
-
-
-# We now define the Biopython version number in Bio/__init__.py
-# Here we can't use "import Bio" then "Bio.__version__" as that would
-# tell us the version of Biopython already installed (if any).
+# We now define the Bicodon version number in Bicodon/__init__.py
+# Here we can't use "import Bicodon" then "Bicodon.__version__" as that would
+# tell us the version of Bicodon already installed (if any).
 __version__ = "Undefined"
-for line in open("Bio/__init__.py"):
+for line in open("Bicodon/__init__.py"):
     if line.startswith("__version__"):
         exec(line.strip())
 
@@ -432,11 +306,11 @@ with open("README.rst", "rb") as handle:
     readme_rst = handle.read().decode("ascii")
 
 setup(
-    name="biopython",
+    name="bicodon",
     version=__version__,
-    author="The Biopython Contributors",
-    author_email="biopython@biopython.org",
-    url="https://biopython.org/",
+    author="The Bicodon Contributors",
+    #author_email="bicodon@",
+    url="https://github.com/laguer/Bicodon",
     description="Freely available tools for computational molecular biology.",
     long_description=readme_rst,
     classifiers=[
@@ -444,7 +318,7 @@ setup(
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "License :: Freely Distributable",
-        # Technically the "Biopython License Agreement" is not OSI approved,
+        # Technically the "Bicodon License Agreement" is not OSI approved,
         # but is almost https://opensource.org/licenses/HPND so might put:
         # 'License :: OSI Approved',
         # To resolve this we are moving to dual-licensing with 3-clause BSD:
@@ -463,10 +337,10 @@ setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     cmdclass={
-        "install": install_biopython,
-        "build_py": build_py_biopython,
-        "build_ext": build_ext_biopython,
-        "test": test_biopython,
+        "install": install_bicodon,
+        "build_py": build_py_bicodon,
+        "build_ext": build_ext_bicodon,
+        "test": test_bicodon,
     },
     packages=PACKAGES,
     ext_modules=EXTENSIONS,
