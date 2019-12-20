@@ -1,6 +1,8 @@
 dependencies:
   - matplotlib
   - numpy
+  - dill
+  - bio
   - pandas
   - pip
   - pytest
