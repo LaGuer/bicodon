@@ -343,7 +343,7 @@ setup(
         "test": test_bicodon,
     },
     #packages=PACKAGES,
-    ext_modules=EXTENSIONS,
+    #ext_modules=EXTENSIONS,
     include_package_data=True,  # done via MANIFEST.in under setuptools
     install_requires=REQUIRES,
 )
