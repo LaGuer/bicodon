@@ -1,5 +1,5 @@
 __precompile__()
-module BiCodon
+module Bicodon
 
 using Measurements, Unitful, Bio
 import Measurements: value, uncertainty
@@ -26,4 +26,4 @@ const Tools = BioTools
 # TODO
 #const Phylo = Phylogenies
 
-end  # module BiCodon
+end  # module Bicodon
