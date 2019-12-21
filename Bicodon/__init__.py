@@ -59,7 +59,7 @@ class BicodonParserWarning(BicodonWarning):
     """Bicodon parser warning.
 
     Some in-valid data files cannot be parsed and will trigger an exception.
-    Where a reasonable interpretation is possible, Biopython will issue this
+    Where a reasonable interpretation is possible, Bicodon will issue this
     warning to indicate a potential problem. To silence these warnings, use:
 
     >>> import warnings
@@ -81,7 +81,7 @@ class BicodonDeprecationWarning(BicodonWarning):
     To silence all our deprecation warning messages, use:
 
     >>> import warnings
-    >>> from Bio import BicodonDeprecationWarning
+    >>> from Bicodon import BicodonDeprecationWarning
     >>> warnings.simplefilter('ignore', BicodonDeprecationWarning)
 
     Code marked as deprecated is likely to be removed in a future version
