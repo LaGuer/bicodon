@@ -64,7 +64,7 @@ class BicodonParserWarning(BicodonWarning):
 
     >>> import warnings
     >>> from Bicodon import BicodonParserWarning
-    >>> warnings.simplefilter('ignore', BiopythonParserWarning)
+    >>> warnings.simplefilter('ignore', BicodonParserWarning)
 
     Consult the warnings module documentation for more details.
     """
@@ -75,7 +75,7 @@ class BicodonParserWarning(BicodonWarning):
 class BicodonDeprecationWarning(BicodonWarning):
     """Bicodon deprecation warning.
 
-    Biopython uses this warning instead of the built in DeprecationWarning
+    Bicodon uses this warning instead of the built in DeprecationWarning
     since those are ignored by default since Python 2.7.
 
     To silence all our deprecation warning messages, use:
